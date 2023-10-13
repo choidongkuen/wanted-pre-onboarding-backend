@@ -27,5 +27,6 @@ replay_pid*
 .idea
 # Gradle
 .gradle
+
 # env
-/docker/.env
+docker/.env
