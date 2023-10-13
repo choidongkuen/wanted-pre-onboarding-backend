@@ -28,4 +28,4 @@ replay_pid*
 # Gradle
 .gradle
 # env
-docker/.env
+/docker/.env
