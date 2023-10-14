@@ -2,6 +2,7 @@ package com.example.pre_onboarding.service;
 
 import com.example.pre_onboarding.domain.Recruitment;
 import com.example.pre_onboarding.dto.CreateRecruitmentRequestDto;
+import com.example.pre_onboarding.dto.GetRecruitmentDetailResponseDto;
 import com.example.pre_onboarding.dto.GetRecruitmentsResponseDto;
 import com.example.pre_onboarding.dto.UpdateRecruitmentRequestDto;
 import com.example.pre_onboarding.exception.NotFoundRecruitmentException;
@@ -79,6 +80,17 @@ public class RecruitmentService {
                 .findBySkillsContainingIgnoreCaseOrderByUpdatedAtDesc(skillName).stream()
                 .map(Recruitment::toGetRecruitmentsResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 채용 공고 상세 조회
+     */
+    @Transactional(readOnly = true)
+    public GetRecruitmentDetailResponseDto getRecruitmentDetail(Long id) {
+        Recruitment recruitment = this.getRecruitment(id);
+        // Long id 로 조회한 채용 공고의 회사가 올린 다른 모든 채용 공고
+        return GetRecruitmentDetailResponseDto.toGetRecruitmentDetailResponseDto(
+                recruitment, this.recruitmentRepository.findByCompanyId(recruitment.getCompanyId()));
     }
     private Recruitment getRecruitment(Long id) {
         return this.recruitmentRepository.findById(id)

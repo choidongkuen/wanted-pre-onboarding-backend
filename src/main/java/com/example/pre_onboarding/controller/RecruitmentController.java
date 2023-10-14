@@ -1,9 +1,11 @@
 package com.example.pre_onboarding.controller;
 
 import com.example.pre_onboarding.dto.CreateRecruitmentRequestDto;
+import com.example.pre_onboarding.dto.GetRecruitmentDetailResponseDto;
 import com.example.pre_onboarding.dto.GetRecruitmentsResponseDto;
 import com.example.pre_onboarding.dto.UpdateRecruitmentRequestDto;
 import com.example.pre_onboarding.service.RecruitmentService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -84,5 +86,16 @@ public class RecruitmentController {
     ) {
         return new ResponseEntity<>(
                 this.recruitmentService.getRecruitmentsBySkillName(name), HttpStatus.OK);
+    }
+
+    /**
+     * 채용 공고 상세 조회
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<GetRecruitmentDetailResponseDto> getRecruitmentDetail(
+            @PathVariable Long id
+    ) {
+        return new ResponseEntity<>(
+                this.recruitmentService.getRecruitmentDetail(id),HttpStatus.OK);
     }
 }

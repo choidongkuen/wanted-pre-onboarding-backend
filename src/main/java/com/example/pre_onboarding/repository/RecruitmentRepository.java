@@ -11,4 +11,6 @@ public interface RecruitmentRepository extends JpaRepository<Recruitment,Long> {
     List<Recruitment> findByCompanyNameContainingIgnoreCaseOrderByUpdatedAtDesc(String companyName);
 
     List<Recruitment> findBySkillsContainingIgnoreCaseOrderByUpdatedAtDesc(String skillName);
+
+    List<Recruitment> findByCompanyId(String companyId);
 }
