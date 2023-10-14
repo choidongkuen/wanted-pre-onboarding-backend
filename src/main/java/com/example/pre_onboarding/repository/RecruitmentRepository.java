@@ -8,5 +8,7 @@ import java.util.List;
 public interface RecruitmentRepository extends JpaRepository<Recruitment,Long> {
     List<Recruitment> findByOrderByUpdatedAtDesc();
 
-    List<Recruitment> findByCompanyNameOrderByUpdatedAtDesc(String companyName);
+    List<Recruitment> findByCompanyNameContainingIgnoreCaseOrderByUpdatedAtDesc(String companyName);
+
+    List<Recruitment> findBySkillsContainingIgnoreCaseOrderByUpdatedAtDesc(String skillName);
 }

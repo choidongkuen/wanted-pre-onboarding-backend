@@ -67,11 +67,22 @@ public class RecruitmentController {
     /**
      * 회사 이름으로 채용 공고 조회
      */
-    @GetMapping("/filter")
+    @GetMapping("/filter/company")
     public ResponseEntity<List<GetRecruitmentsResponseDto>> getRecruitmentsByCompanyName(
             @RequestParam String name
     ) {
        return new ResponseEntity<>(
-               this.recruitmentService.GetRecruitmentsByCompanyName(name),HttpStatus.OK);
+               this.recruitmentService.getRecruitmentsByCompanyName(name),HttpStatus.OK);
+    }
+
+    /**
+     * 기술 이름으로 채용 공고 조회
+     */
+    @GetMapping("/filter/skill")
+    public ResponseEntity<List<GetRecruitmentsResponseDto>> getRecruitmentsBySkillName(
+            @RequestParam String name
+    ) {
+        return new ResponseEntity<>(
+                this.recruitmentService.getRecruitmentsBySkillName(name), HttpStatus.OK);
     }
 }

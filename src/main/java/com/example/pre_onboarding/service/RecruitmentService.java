@@ -61,13 +61,25 @@ public class RecruitmentService {
      * 회사 이름으로 채용 공고 조회
      */
     @Transactional(readOnly = true)
-    public List<GetRecruitmentsResponseDto> GetRecruitmentsByCompanyName(String companyName) {
+    public List<GetRecruitmentsResponseDto> getRecruitmentsByCompanyName(String companyName) {
         return this.recruitmentRepository
-                .findByCompanyNameOrderByUpdatedAtDesc(companyName).stream()
+                // companyName 이 포함된 모든 채용공고 조회
+                .findByCompanyNameContainingIgnoreCaseOrderByUpdatedAtDesc(companyName).stream()
                 .map(Recruitment::toGetRecruitmentsResponseDto)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 기술 이름으로 채용 공고 조회
+     */
+    @Transactional(readOnly = true)
+    public List<GetRecruitmentsResponseDto> getRecruitmentsBySkillName(String skillName) {
+        return this.recruitmentRepository
+                // skillName 이 포함된 모든 채용공고 조회
+                .findBySkillsContainingIgnoreCaseOrderByUpdatedAtDesc(skillName).stream()
+                .map(Recruitment::toGetRecruitmentsResponseDto)
+                .collect(Collectors.toList());
+    }
     private Recruitment getRecruitment(Long id) {
         return this.recruitmentRepository.findById(id)
                 .orElseThrow(() -> new NotFoundRecruitmentException("일치하는 채용 공고 정보가 존재하지 않습니다."));
