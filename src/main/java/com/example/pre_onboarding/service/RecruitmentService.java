@@ -34,7 +34,8 @@ public class RecruitmentService {
      **/
     @Transactional(readOnly = true)
     public List<GetRecruitmentsResponseDto> getRecruitments() {
-        return this.recruitmentRepository.findAll().stream()
+        // UpdatedAt 기준 내림차순(수정일자 기준 최신 순)
+        return this.recruitmentRepository.findByOrderByUpdatedAtDesc().stream()
                 .map(Recruitment::toGetRecruitmentsResponseDto)
                 .collect(Collectors.toList());
     }
