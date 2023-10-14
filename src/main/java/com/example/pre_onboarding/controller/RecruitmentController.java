@@ -21,6 +21,9 @@ import java.util.List;
 public class RecruitmentController {
     private final RecruitmentService recruitmentService;
 
+    /**
+     * 채용 공고 등록
+     **/
     @PostMapping
     public ResponseEntity<Long> createRecruitment(
             @RequestBody @Valid CreateRecruitmentRequestDto request
@@ -29,12 +32,18 @@ public class RecruitmentController {
                 this.recruitmentService.createRecruitment(request), HttpStatus.CREATED);
     }
 
+    /**
+     * 모든 채용 공고 조회
+     **/
     @GetMapping
     public ResponseEntity<List<GetRecruitmentsResponseDto>> getRecruitments() {
         return new ResponseEntity<>(
                 this.recruitmentService.getRecruitments(),HttpStatus.OK);
     }
 
+    /**
+     * 채용 공고 수정
+     **/
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateRecruitment(
             @PathVariable Long id,
@@ -44,11 +53,25 @@ public class RecruitmentController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * 채용 공고 삭제
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecruitment(
             @PathVariable Long id
     ) {
         this.recruitmentService.deleteRecruitment(id);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 회사 이름으로 채용 공고 조회
+     */
+    @GetMapping("/filter")
+    public ResponseEntity<List<GetRecruitmentsResponseDto>> getRecruitmentsByCompanyName(
+            @RequestParam String name
+    ) {
+       return new ResponseEntity<>(
+               this.recruitmentService.GetRecruitmentsByCompanyName(name),HttpStatus.OK);
     }
 }

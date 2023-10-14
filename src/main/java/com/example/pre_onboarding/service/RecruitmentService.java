@@ -30,7 +30,7 @@ public class RecruitmentService {
     }
 
     /**
-     * 채용 공고 조회
+     * 모든 채용 공고 조회
      **/
     @Transactional(readOnly = true)
     public List<GetRecruitmentsResponseDto> getRecruitments() {
@@ -55,6 +55,17 @@ public class RecruitmentService {
     @Transactional
     public void deleteRecruitment(Long id) {
         this.recruitmentRepository.delete(getRecruitment(id));
+    }
+
+    /**
+     * 회사 이름으로 채용 공고 조회
+     */
+    @Transactional(readOnly = true)
+    public List<GetRecruitmentsResponseDto> GetRecruitmentsByCompanyName(String companyName) {
+        return this.recruitmentRepository
+                .findByCompanyNameOrderByUpdatedAtDesc(companyName).stream()
+                .map(Recruitment::toGetRecruitmentsResponseDto)
+                .collect(Collectors.toList());
     }
 
     private Recruitment getRecruitment(Long id) {
