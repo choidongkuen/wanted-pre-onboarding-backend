@@ -45,9 +45,7 @@ public class RecruitmentService {
      **/
     @Transactional
     public void updateRecruitment(Long id, UpdateRecruitmentRequestDto request) {
-        this.getRecruitment(id)
-                .updateRecruitment(request);
-
+        this.getRecruitment(id).updateRecruitment(request);
     }
 
 

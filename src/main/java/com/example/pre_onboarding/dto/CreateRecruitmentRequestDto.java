@@ -19,6 +19,8 @@ public class CreateRecruitmentRequestDto {
     @NotBlank(message = "회사 아이디는 필수 입력값입니다.")
     private String companyId;
 
+    @NotBlank(message = "회사 이름은 필수 입력값입니다.")
+    private String companyName;
     private Position position;
     private Integer recruitmentBonus;
     @NotBlank
@@ -29,6 +31,7 @@ public class CreateRecruitmentRequestDto {
     public Recruitment toEntity() {
         return Recruitment.builder()
                 .companyId(companyId)
+                .companyName(companyName)
                 .position(position)
                 .recruitmentBonus(recruitmentBonus)
                 .recruitmentContent(recruitmentContent)

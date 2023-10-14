@@ -14,9 +14,15 @@ import javax.validation.constraints.NotBlank;
 public class UpdateRecruitmentRequestDto {
     @NotBlank(message = "회사 아이디는 필수 입력값입니다.")
     private Position position;
+
+    @NotBlank(message = "회사 이름은 필수 입력값입니다.")
+    private String companyName;
+
     private Integer recruitmentBonus;
+
     @NotBlank
     @Lob
     private String recruitmentContent;
+
     private String skills;
 }

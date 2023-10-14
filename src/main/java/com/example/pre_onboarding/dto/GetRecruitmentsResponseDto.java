@@ -11,6 +11,7 @@ import lombok.*;
 public class GetRecruitmentsResponseDto {
     private Long id;
     private String companyId;
+    private String companyName;
     private Position position;
     private Integer recruitmentBonus;
     private String recruitmentContent;
