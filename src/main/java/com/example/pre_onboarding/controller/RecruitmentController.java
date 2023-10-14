@@ -1,17 +1,17 @@
 package com.example.pre_onboarding.controller;
 
 import com.example.pre_onboarding.dto.CreateRecruitmentRequestDto;
+import com.example.pre_onboarding.dto.GetRecruitmentsResponseDto;
+import com.example.pre_onboarding.dto.UpdateRecruitmentRequestDto;
 import com.example.pre_onboarding.service.RecruitmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /* 채용 공고 CRUD 관련 Controller */
 @Slf4j
@@ -27,5 +27,28 @@ public class RecruitmentController {
     ) {
         return new ResponseEntity<>(
                 this.recruitmentService.createRecruitment(request), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GetRecruitmentsResponseDto>> getRecruitments() {
+        return new ResponseEntity<>(
+                this.recruitmentService.getRecruitments(),HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateRecruitment(
+            @PathVariable Long id,
+            @RequestBody UpdateRecruitmentRequestDto request
+    ) {
+        this.recruitmentService.updateRecruitment(id,request);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRecruitment(
+            @PathVariable Long id
+    ) {
+        this.recruitmentService.deleteRecruitment(id);
+        return ResponseEntity.ok().build();
     }
 }

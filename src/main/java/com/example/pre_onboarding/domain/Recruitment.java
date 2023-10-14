@@ -1,21 +1,22 @@
 package com.example.pre_onboarding.domain;
+
 import com.example.pre_onboarding.constant.Position;
+import com.example.pre_onboarding.dto.GetRecruitmentsResponseDto;
+import com.example.pre_onboarding.dto.UpdateRecruitmentRequestDto;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor(access= AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "recruitments")
-public class Recruitment {
+public class Recruitment extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -32,4 +33,22 @@ public class Recruitment {
     private String recruitmentContent; // 채용 내용
 
     private String skills; // 사용 기술(콤마 기준으로 여러개 설정 가능)
+
+    public GetRecruitmentsResponseDto toGetRecruitmentsResponseDto() {
+        return GetRecruitmentsResponseDto.builder()
+                .id(id)
+                .companyId(companyId)
+                .position(position)
+                .recruitmentBonus(recruitmentBonus)
+                .recruitmentContent(recruitmentContent)
+                .skills(skills)
+                .build();
+    }
+
+    public void updateRecruitment(UpdateRecruitmentRequestDto request) {
+        this.position = request.getPosition();
+        this.recruitmentBonus = request.getRecruitmentBonus();
+        this.recruitmentContent = request.getRecruitmentContent();
+        this.skills = request.getSkills();
+    }
 }

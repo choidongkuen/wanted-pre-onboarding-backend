@@ -32,6 +32,7 @@ public class CreateRecruitmentRequestDto {
                 .position(position)
                 .recruitmentBonus(recruitmentBonus)
                 .recruitmentContent(recruitmentContent)
+                .skills(skills)
                 .build();
     }
 }
