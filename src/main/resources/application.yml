@@ -7,7 +7,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3304/pre_onboarding
+    url: jdbc:mysql://localhost:3304/pre_onboarding?serverTimeZone=Asia/Seoul&character=UTD-8
     username: root
     password: ${MYSQL_PASSWORD}
 

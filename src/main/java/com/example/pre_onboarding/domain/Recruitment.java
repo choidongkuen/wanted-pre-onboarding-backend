@@ -31,6 +31,5 @@ public class Recruitment {
     @Column(nullable = false)
     private String recruitmentContent; // 채용 내용
 
-    @OneToMany(mappedBy = "recruitment")
-    private List<Skill> skills = new ArrayList<>(); // 사용 기
+    private String skills; // 사용 기술(콤마 기준으로 여러개 설정 가능)
 }
