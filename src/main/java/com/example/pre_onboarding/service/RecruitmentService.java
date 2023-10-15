@@ -3,16 +3,22 @@ package com.example.pre_onboarding.service;
 import com.example.pre_onboarding.constant.Area;
 import com.example.pre_onboarding.domain.Company;
 import com.example.pre_onboarding.domain.Recruitment;
+import com.example.pre_onboarding.domain.User;
+import com.example.pre_onboarding.domain.UserApplyRecruitment;
 import com.example.pre_onboarding.dto.recruitment.CreateRecruitmentRequestDto;
 import com.example.pre_onboarding.dto.recruitment.GetRecruitmentDetailResponseDto;
 import com.example.pre_onboarding.dto.recruitment.GetRecruitmentsResponseDto;
 import com.example.pre_onboarding.dto.recruitment.UpdateRecruitmentRequestDto;
+import com.example.pre_onboarding.dto.user.UserAuthentication;
+import com.example.pre_onboarding.exception.DuplicateUserApplyRecruitmentException;
 import com.example.pre_onboarding.exception.recruitment.CompanyNotFoundException;
 import com.example.pre_onboarding.exception.recruitment.RecruitmentNotFoundException;
 import com.example.pre_onboarding.repository.CompanyRepository;
 import com.example.pre_onboarding.repository.RecruitmentRepository;
+import com.example.pre_onboarding.repository.UserApplyRecruitmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +32,7 @@ import java.util.stream.Collectors;
 public class RecruitmentService {
     private final RecruitmentRepository recruitmentRepository;
     private final CompanyRepository companyRepository;
+    private final UserApplyRecruitmentRepository userApplyRecruitmentRepository;
 
     /**
      * 채용 공고 등록
@@ -112,6 +119,24 @@ public class RecruitmentService {
                         .map(Recruitment::toGetRecruitmentsResponseDto))
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 사용자 채용 공고 지원
+     */
+    @Transactional
+    public Long userApplyRecruitment(Long id) {
+        Recruitment recruitment = this.getRecruitment(id);
+        User user = ((UserAuthentication) SecurityContextHolder.getContext().getAuthentication()).getUser();
+
+        // 유저가 동일한 채용 공고에 복수 지원한 경우 예외 발생
+        if(this.userApplyRecruitmentRepository.countByRecruitmentAndUser(recruitment,user) >= 1) {
+            throw new DuplicateUserApplyRecruitmentException("동일한 채용 공고에 복수 지원은 불가능 합니다.");
+        }
+
+        UserApplyRecruitment userApplyRecruitment = this.userApplyRecruitmentRepository.save(new UserApplyRecruitment(recruitment,user));
+        return userApplyRecruitment.getId();
+    }
+
     private Recruitment getRecruitment(Long id) {
         return this.recruitmentRepository.findById(id)
                 .orElseThrow(() -> new RecruitmentNotFoundException("일치하는 채용 공고 정보가 존재하지 않습니다."));

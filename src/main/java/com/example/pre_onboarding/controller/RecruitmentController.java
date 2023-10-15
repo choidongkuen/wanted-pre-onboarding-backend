@@ -109,4 +109,15 @@ public class RecruitmentController {
         return new ResponseEntity<>(
                 this.recruitmentService.getRecruitmentDetail(id), HttpStatus.OK);
     }
+
+    /**
+     * 사용자 채용 공고 지원
+     */
+    @PostMapping("/apply/{id}")
+    public ResponseEntity<Long> userApplyRecruitment(
+            @PathVariable Long id
+    ) {
+        return new ResponseEntity<>(
+                this.recruitmentService.userApplyRecruitment(id),HttpStatus.CREATED);
+    }
 }

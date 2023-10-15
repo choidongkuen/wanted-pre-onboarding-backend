@@ -5,6 +5,9 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Getter
 @Builder
@@ -30,4 +33,11 @@ public class User extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserApplyRecruitment> userApplyRecruitments = new ArrayList<>();
+
+    public void setUserApplyRecruitments(UserApplyRecruitment userApplyRecruitment) {
+        this.userApplyRecruitments.add(userApplyRecruitment);
+    }
 }

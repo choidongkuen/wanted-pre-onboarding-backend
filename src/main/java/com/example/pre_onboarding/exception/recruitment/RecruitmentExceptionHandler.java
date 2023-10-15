@@ -10,9 +10,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice(basePackageClasses = RecruitmentController.class)
 public class RecruitmentExceptionHandler {
     @ExceptionHandler(RecruitmentNotFoundException.class)
-    public ResponseEntity<ErrorMessage> notFoundRecruitmentExceptionHandler(
+    public ResponseEntity<ErrorMessage> recruitmentNotFoundExceptionHandler(
             RecruitmentNotFoundException exception
     ) {
         return ResponseEntity.badRequest().body(ErrorMessage.of(exception, HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(CompanyNotFoundException.class)
+    public ResponseEntity<ErrorMessage> companyNotFoundExceptionHandler(
+            CompanyNotFoundException exception
+    ) {
+        return ResponseEntity.badRequest().body(ErrorMessage.of(exception,HttpStatus.BAD_REQUEST));
     }
 }

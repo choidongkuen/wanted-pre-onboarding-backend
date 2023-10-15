@@ -1,6 +1,7 @@
 package com.example.pre_onboarding.exception.user;
 
 import com.example.pre_onboarding.controller.UserController;
+import com.example.pre_onboarding.exception.DuplicateUserApplyRecruitmentException;
 import com.example.pre_onboarding.exception.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +23,12 @@ public class UserExceptionHandler {
             PasswordNotMatchException exception
     ) {
         return ResponseEntity.badRequest().body(ErrorMessage.of(exception,HttpStatus.UNAUTHORIZED));
+    }
+
+    @ExceptionHandler(DuplicateUserApplyRecruitmentException.class)
+    public ResponseEntity<ErrorMessage> duplicationUserApplyRecruitmentExceptionHandler(
+            DuplicateUserApplyRecruitmentException exception
+    ) {
+        return ResponseEntity.badRequest().body(ErrorMessage.of(exception,HttpStatus.BAD_REQUEST));
     }
 }
