@@ -1,4 +1,4 @@
-package com.example.pre_onboarding.dto;
+package com.example.pre_onboarding.dto.recruitment;
 
 import com.example.pre_onboarding.constant.Position;
 import lombok.*;
