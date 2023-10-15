@@ -1,5 +1,6 @@
 package com.example.pre_onboarding.controller;
 
+import com.example.pre_onboarding.constant.Area;
 import com.example.pre_onboarding.dto.CreateRecruitmentRequestDto;
 import com.example.pre_onboarding.dto.GetRecruitmentDetailResponseDto;
 import com.example.pre_onboarding.dto.GetRecruitmentsResponseDto;
@@ -85,6 +86,17 @@ public class RecruitmentController {
     ) {
         return new ResponseEntity<>(
                 this.recruitmentService.getRecruitmentsBySkillName(name), HttpStatus.OK);
+    }
+
+    /**
+     * 지역 이름으로 채용 공고 조회
+     */
+    @GetMapping("/filter/area")
+    public ResponseEntity<List<GetRecruitmentsResponseDto>> getRecruitmentsByArea(
+            @RequestParam Area name
+    ) {
+        return new ResponseEntity<>(
+                this.recruitmentService.getRecruitmentsByAreaName(name),HttpStatus.OK);
     }
 
     /**

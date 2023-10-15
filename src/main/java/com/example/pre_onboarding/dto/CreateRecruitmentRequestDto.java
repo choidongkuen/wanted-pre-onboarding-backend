@@ -30,12 +30,14 @@ public class CreateRecruitmentRequestDto {
     private String skills;
 
     public Recruitment toEntity(Company company) {
-        return Recruitment.builder()
+        Recruitment recruitment = Recruitment.builder()
                 .company(company)
                 .position(position)
                 .recruitmentBonus(recruitmentBonus)
                 .recruitmentContent(recruitmentContent)
                 .skills(skills)
                 .build();
+        company.setRecruitment(recruitment);
+        return recruitment;
     }
 }

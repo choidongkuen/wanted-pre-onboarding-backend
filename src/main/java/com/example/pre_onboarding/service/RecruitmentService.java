@@ -1,5 +1,6 @@
 package com.example.pre_onboarding.service;
 
+import com.example.pre_onboarding.constant.Area;
 import com.example.pre_onboarding.domain.Company;
 import com.example.pre_onboarding.domain.Recruitment;
 import com.example.pre_onboarding.dto.CreateRecruitmentRequestDto;
@@ -12,11 +13,14 @@ import com.example.pre_onboarding.repository.CompanyRepository;
 import com.example.pre_onboarding.repository.RecruitmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -32,7 +36,6 @@ public class RecruitmentService {
     @Transactional
     public Long createRecruitment(CreateRecruitmentRequestDto request) {
         Company company = getCompany(request.getCompanyId());
-        // TODO : 객체 지향적인 코드 구현을 위해 1 쪽에도 setting
         Recruitment recruitment = request.toEntity(company);
         return this.recruitmentRepository.save(recruitment).getId();
     }
@@ -99,6 +102,18 @@ public class RecruitmentService {
         // Long id 로 조회한 채용 공고의 회사가 올린 다른 모든 채용 공고
         return GetRecruitmentDetailResponseDto.toGetRecruitmentDetailResponseDto(
                 recruitment, this.recruitmentRepository.findByCompany(recruitment.getCompany()));
+    }
+
+    /**
+     * 지역 이름으로 채용 공고 조회
+     */
+    @Transactional(readOnly = true)
+    public List<GetRecruitmentsResponseDto> getRecruitmentsByAreaName(Area name) {
+        return this.companyRepository.findAllByArea(name).stream()
+                .flatMap(company -> company.getRecruitments().stream()
+                        .sorted(Comparator.comparing(Recruitment::getUpdatedAt))
+                        .map(Recruitment::toGetRecruitmentsResponseDto))
+                .collect(Collectors.toList());
     }
     private Recruitment getRecruitment(Long id) {
         return this.recruitmentRepository.findById(id)

@@ -31,4 +31,8 @@ public class Company {
 
     @OneToMany(mappedBy = "company")
     private List<Recruitment> recruitments = new ArrayList<>();
+
+    public void setRecruitment(Recruitment recruitment) {
+        this.recruitments.add(recruitment);
+    }
 }
