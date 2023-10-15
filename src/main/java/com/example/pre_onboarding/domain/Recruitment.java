@@ -20,12 +20,6 @@ public class Recruitment extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String companyId; // 회사 고유 id
-
-    @Column(nullable = false)
-    private String companyName; // 회사 이름
-
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Position position; // 채용 포지션
 
@@ -37,11 +31,16 @@ public class Recruitment extends BaseTimeEntity {
 
     private String skills; // 사용 기술(콤마 기준으로 여러개 설정 가능)
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Company company;
+
+
     public GetRecruitmentsResponseDto toGetRecruitmentsResponseDto() {
         return GetRecruitmentsResponseDto.builder()
                 .id(id)
-                .companyId(companyId)
-                .companyName(companyName)
+                .companyName(company.getCompanyName())
+                .nation(company.getNation())
+                .area(company.getArea())
                 .position(position)
                 .recruitmentBonus(recruitmentBonus)
                 .recruitmentContent(recruitmentContent)
@@ -50,7 +49,6 @@ public class Recruitment extends BaseTimeEntity {
     }
 
     public void updateRecruitment(UpdateRecruitmentRequestDto request) {
-        this.companyName = request.getCompanyName();
         this.position = request.getPosition();
         this.recruitmentBonus = request.getRecruitmentBonus();
         this.recruitmentContent = request.getRecruitmentContent();

@@ -5,7 +5,6 @@ import com.example.pre_onboarding.dto.GetRecruitmentDetailResponseDto;
 import com.example.pre_onboarding.dto.GetRecruitmentsResponseDto;
 import com.example.pre_onboarding.dto.UpdateRecruitmentRequestDto;
 import com.example.pre_onboarding.service.RecruitmentService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -40,7 +39,7 @@ public class RecruitmentController {
     @GetMapping
     public ResponseEntity<List<GetRecruitmentsResponseDto>> getRecruitments() {
         return new ResponseEntity<>(
-                this.recruitmentService.getRecruitments(),HttpStatus.OK);
+                this.recruitmentService.getRecruitments(), HttpStatus.OK);
     }
 
     /**
@@ -51,7 +50,7 @@ public class RecruitmentController {
             @PathVariable Long id,
             @RequestBody UpdateRecruitmentRequestDto request
     ) {
-        this.recruitmentService.updateRecruitment(id,request);
+        this.recruitmentService.updateRecruitment(id, request);
         return ResponseEntity.ok().build();
     }
 
@@ -73,8 +72,8 @@ public class RecruitmentController {
     public ResponseEntity<List<GetRecruitmentsResponseDto>> getRecruitmentsByCompanyName(
             @RequestParam String name
     ) {
-       return new ResponseEntity<>(
-               this.recruitmentService.getRecruitmentsByCompanyName(name),HttpStatus.OK);
+        return new ResponseEntity<>(
+                this.recruitmentService.getRecruitmentsByCompanyName(name), HttpStatus.OK);
     }
 
     /**
@@ -96,6 +95,6 @@ public class RecruitmentController {
             @PathVariable Long id
     ) {
         return new ResponseEntity<>(
-                this.recruitmentService.getRecruitmentDetail(id),HttpStatus.OK);
+                this.recruitmentService.getRecruitmentDetail(id), HttpStatus.OK);
     }
 }

@@ -10,5 +10,7 @@ public enum Position {
     DATA_SCIENTIST,
     DEVOPS_ENGINEER,
     AI_ENGINEER,
-    BX_DESIGNER
+    BX_DESIGNER,
+    PM,
+    PO
 }

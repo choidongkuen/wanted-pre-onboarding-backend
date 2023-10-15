@@ -1,11 +1,13 @@
 package com.example.pre_onboarding.dto;
 
 import com.example.pre_onboarding.constant.Position;
+import com.example.pre_onboarding.domain.Company;
 import com.example.pre_onboarding.domain.Recruitment;
 import lombok.*;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -16,9 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateRecruitmentRequestDto {
-    @NotBlank(message = "회사 아이디는 필수 입력값입니다.")
-    private String companyId;
-
+    @NotNull(message = "회사 아이디는 필수 입력값입니다.")
+    private Long companyId;
     @NotBlank(message = "회사 이름은 필수 입력값입니다.")
     private String companyName;
     private Position position;
@@ -28,10 +29,9 @@ public class CreateRecruitmentRequestDto {
     private String recruitmentContent;
     private String skills;
 
-    public Recruitment toEntity() {
+    public Recruitment toEntity(Company company) {
         return Recruitment.builder()
-                .companyId(companyId)
-                .companyName(companyName)
+                .company(company)
                 .position(position)
                 .recruitmentBonus(recruitmentBonus)
                 .recruitmentContent(recruitmentContent)

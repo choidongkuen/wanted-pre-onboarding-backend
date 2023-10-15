@@ -1,5 +1,7 @@
 package com.example.pre_onboarding.dto;
 
+import com.example.pre_onboarding.constant.Area;
+import com.example.pre_onboarding.constant.Nation;
 import com.example.pre_onboarding.constant.Position;
 import com.example.pre_onboarding.domain.Recruitment;
 import lombok.*;
@@ -14,8 +16,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class GetRecruitmentDetailResponseDto {
     private Long id;
-    private String companyId;
     private String companyName;
+    private Nation nation;
+    private Area area;
     private Position position;
     private Integer recruitmentBonus;
     private String recruitmentContent;
@@ -27,10 +30,12 @@ public class GetRecruitmentDetailResponseDto {
             Recruitment recruitment,
             List<Recruitment> otherRecruitments) {
 
+        otherRecruitments.remove(recruitment); // 자기 자신 삭제
         return GetRecruitmentDetailResponseDto.builder()
                 .id(recruitment.getId())
-                .companyId(recruitment.getCompanyId())
-                .companyName(recruitment.getCompanyName())
+                .companyName(recruitment.getCompany().getCompanyName())
+                .nation(recruitment.getCompany().getNation())
+                .area(recruitment.getCompany().getArea())
                 .position(recruitment.getPosition())
                 .recruitmentBonus(recruitment.getRecruitmentBonus())
                 .recruitmentContent(recruitment.getRecruitmentContent())

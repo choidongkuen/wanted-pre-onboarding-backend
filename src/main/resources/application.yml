@@ -18,6 +18,8 @@ spring:
       hibernate:
         show_sql: true
 
+    generate-ddl: true
+
 logging:
   level:
     org.hibernate.sql: debug
