@@ -20,14 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-/**
- * 인증이 필요한 회원 API 요청 시, jwt 인증 용도의 필터
- * - 인증 마다 SecurityContext 생성 후 저장
- **/
 @Getter
 @RequiredArgsConstructor
 @Slf4j
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final JwtProperties jwtProperties;
@@ -59,20 +55,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(userAuthentication);
         } catch (JwtAuthenticationException | UsernameNotFoundException exception) {
             log.error("JwtAuthentication Authentication Exception Occurs! - {}",exception);
+            throw exception;
         }
         filterChain.doFilter(request, response);
-        // permitAll() 의 정상적인 처리를 원한다면, 다음 필터로 넘겨 추후 판단하여 ExceptionTranslationFilter 을 무시할지 아니면
-        // permitAll() 이 적용되지 않은 API 여서 ExceptionTransliationFilter 을 거칠지 판단
-        // 바로 throw 을 하면 ExceptionTranslationFilter 로 처리가 넘어간다.(permitAll 과 상관 없이)
     }
 
     // 요청 Authorization 헤더 에서 jwt 유효성 검증 후 리턴
-    private String checkAccessTokenAndAuthentication(HttpServletRequest request) {
+    private String checkAccessTokenAndAuthentication(HttpServletRequest request){
 
-        // 1. HttpServletRequest 에서 Access Token 파싱
+        // 1. HttpServletRequest 에서 Access Token 파싱 -> token 이 없는지 + 있다면 유효한지 체크
         Optional<String> token = this.jwtService.extractAccessToken(request);
         if (token.isEmpty() || !this.jwtService.validateToken(token.get())) {
-            return null;
+            throw new JwtAuthenticationException("jwt excpet");
         }
         return token.get();
     }

@@ -1,5 +1,6 @@
 package com.example.pre_onboarding.domain;
 
+import com.example.pre_onboarding.constant.Role;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,4 +27,7 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

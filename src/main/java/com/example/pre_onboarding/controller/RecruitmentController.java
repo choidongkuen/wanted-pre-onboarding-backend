@@ -1,10 +1,10 @@
 package com.example.pre_onboarding.controller;
 
 import com.example.pre_onboarding.constant.Area;
-import com.example.pre_onboarding.dto.CreateRecruitmentRequestDto;
-import com.example.pre_onboarding.dto.GetRecruitmentDetailResponseDto;
-import com.example.pre_onboarding.dto.GetRecruitmentsResponseDto;
-import com.example.pre_onboarding.dto.UpdateRecruitmentRequestDto;
+import com.example.pre_onboarding.dto.recruitment.CreateRecruitmentRequestDto;
+import com.example.pre_onboarding.dto.recruitment.GetRecruitmentDetailResponseDto;
+import com.example.pre_onboarding.dto.recruitment.GetRecruitmentsResponseDto;
+import com.example.pre_onboarding.dto.recruitment.UpdateRecruitmentRequestDto;
 import com.example.pre_onboarding.service.RecruitmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

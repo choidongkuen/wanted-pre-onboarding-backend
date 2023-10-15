@@ -3,24 +3,21 @@ package com.example.pre_onboarding.service;
 import com.example.pre_onboarding.constant.Area;
 import com.example.pre_onboarding.domain.Company;
 import com.example.pre_onboarding.domain.Recruitment;
-import com.example.pre_onboarding.dto.CreateRecruitmentRequestDto;
-import com.example.pre_onboarding.dto.GetRecruitmentDetailResponseDto;
-import com.example.pre_onboarding.dto.GetRecruitmentsResponseDto;
-import com.example.pre_onboarding.dto.UpdateRecruitmentRequestDto;
-import com.example.pre_onboarding.exception.NotFoundCompanyException;
-import com.example.pre_onboarding.exception.NotFoundRecruitmentException;
+import com.example.pre_onboarding.dto.recruitment.CreateRecruitmentRequestDto;
+import com.example.pre_onboarding.dto.recruitment.GetRecruitmentDetailResponseDto;
+import com.example.pre_onboarding.dto.recruitment.GetRecruitmentsResponseDto;
+import com.example.pre_onboarding.dto.recruitment.UpdateRecruitmentRequestDto;
+import com.example.pre_onboarding.exception.recruitment.CompanyNotFoundException;
+import com.example.pre_onboarding.exception.recruitment.RecruitmentNotFoundException;
 import com.example.pre_onboarding.repository.CompanyRepository;
 import com.example.pre_onboarding.repository.RecruitmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -117,16 +114,16 @@ public class RecruitmentService {
     }
     private Recruitment getRecruitment(Long id) {
         return this.recruitmentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundRecruitmentException("일치하는 채용 공고 정보가 존재하지 않습니다."));
+                .orElseThrow(() -> new RecruitmentNotFoundException("일치하는 채용 공고 정보가 존재하지 않습니다."));
     }
 
     private Company getCompany(Object cond) {
         if(cond instanceof Long) {
             return this.companyRepository.findById((Long)cond)
-                    .orElseThrow(() -> new NotFoundCompanyException("일치하는 회사 정보가 존재하지 않습니다."));
+                    .orElseThrow(() -> new CompanyNotFoundException("일치하는 회사 정보가 존재하지 않습니다."));
         }else{
             return this.companyRepository.findByCompanyNameContainingIgnoreCase((String)cond)
-                    .orElseThrow(() -> new NotFoundCompanyException("일치하는 회사 정보가 존재하지 않습니다."));
+                    .orElseThrow(() -> new CompanyNotFoundException("일치하는 회사 정보가 존재하지 않습니다."));
         }
     }
 }

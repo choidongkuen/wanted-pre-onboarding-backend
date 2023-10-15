@@ -1,8 +1,8 @@
 package com.example.pre_onboarding.domain;
 
 import com.example.pre_onboarding.constant.Position;
-import com.example.pre_onboarding.dto.GetRecruitmentsResponseDto;
-import com.example.pre_onboarding.dto.UpdateRecruitmentRequestDto;
+import com.example.pre_onboarding.dto.recruitment.GetRecruitmentsResponseDto;
+import com.example.pre_onboarding.dto.recruitment.UpdateRecruitmentRequestDto;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +33,6 @@ public class Recruitment extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
-
 
     public GetRecruitmentsResponseDto toGetRecruitmentsResponseDto() {
         return GetRecruitmentsResponseDto.builder()

@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 
 @Getter
 public class ErrorMessage {
-    private int code;
-    private String errorSimpleName;
-    private String msg;
-    private LocalDateTime timestamp;
+    private final int code;
+    private final String errorSimpleName;
+    private final String msg;
+    private final LocalDateTime timestamp;
 
     public ErrorMessage(Exception exception, HttpStatus httpStatus) {
         this.code = httpStatus.value();
