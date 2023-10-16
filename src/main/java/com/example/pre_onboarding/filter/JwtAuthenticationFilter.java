@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -58,7 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserAuthentication userAuthentication = new UserAuthentication(user);
             SecurityContextHolder.getContext().setAuthentication(userAuthentication);
         } catch (JwtAuthenticationException | UsernameNotFoundException exception) {
-            log.error("JwtAuthentication Authentication Exception Occurs! - {}",exception.getClass());
+            log.info("JwtAuthentication Authentication Exception Occurs! - {}",exception.getClass());
         }
         filterChain.doFilter(request, response);
         // permitAll() 의 정상적인 처리를 원한다면, 다음 필터로 넘겨 추후 판단하여 ExceptionTranslationFilter 을 무시할지 아니면
