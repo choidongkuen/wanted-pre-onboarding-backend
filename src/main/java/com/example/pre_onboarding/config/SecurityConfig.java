@@ -23,9 +23,12 @@ public class SecurityConfig {
     private final JwtProperties jwtProperties;
     private final UserRepository userRepository;
 
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> { web.ignoring().antMatchers("/recruitment/**"); };
+        return (web) -> web.ignoring().antMatchers(
+                    "/api-docs/**",
+                    "/swagger-ui/**");
     }
 
     @Bean
@@ -39,7 +42,7 @@ public class SecurityConfig {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/**").permitAll()
+                .antMatchers("/user/**","/v3/api-docs/**","/swagger-ui/**","/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

@@ -9,9 +9,9 @@ import com.example.pre_onboarding.service.JwtService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -34,12 +34,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProperties jwtProperties;
     private final UserRepository userRepository;
 
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        log.debug(request.getRequestURI());
+        return request.getRequestURI().startsWith("/swagger");
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         if (request.getMethod().equals("OPTIONS")) {
-            filterChain.doFilter(request, response);
+
             return;
         }
 
